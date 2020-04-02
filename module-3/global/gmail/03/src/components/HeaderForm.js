@@ -1,33 +1,41 @@
 import React from 'react';
 
 function HeaderForm(props) {
-  const handleClick = ev => {
+  const handleInboxFilter = ev => {
     ev.preventDefault();
-    console.log(props);
-    props.handleInbox(123);
+    props.handleInboxFilter();
+  };
+
+  const handleDeleteFilter = ev => {
+    ev.preventDefault();
+    props.handleDeleteFilter();
+  };
+
+  const handleTextFilter = ev => {
+    ev.preventDefault();
+    props.handleTextFilter({
+      value: ev.target.value
+    });
   };
 
   return (
     <form className="text-align-right">
-      <button className="form__btn" onClick={handleClick}>
-        <span className="fas fa-inbox"></span>
+      <button className="form__btn" onClick={handleInboxFilter}>
+        <span className="fas fa-inbox mr-1"></span>
         Recibidos
       </button>
-      <button className="form__btn">
-        <span className="fas fa-trash"></span>
+      <button className="form__btn" onClick={handleDeleteFilter}>
+        <span className="fas fa-trash mr-1"></span>
         Papelera
       </button>
-      <input className="form__input-text" type="text" placeholder="Buscar un correo" />
+      <input
+        className="form__input-text"
+        type="text"
+        placeholder="Buscar un correo"
+        onKeyUp={handleTextFilter}
+      />
     </form>
   );
 }
-
-// const btn = document.querySelector('.js-form__btn-fake');
-
-// function handleClick (ev) {
-//   console.log('Me han clickado')
-// }
-
-// btn.addEventListener('click', handleClick);
 
 export default HeaderForm;

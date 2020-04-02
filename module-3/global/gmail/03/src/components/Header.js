@@ -1,11 +1,7 @@
 import React from 'react';
 import HeaderForm from './HeaderForm';
 
-function Header() {
-  const handleInboxClick = cosas => {
-    console.log('Me han clickado', cosas);
-  };
-
+function Header(props) {
   return (
     <header className="col2 mb-1">
       <div>
@@ -15,7 +11,11 @@ function Header() {
         </h1>
       </div>
 
-      <HeaderForm name="Maricarmen" handleInbox={handleInboxClick} />
+      <HeaderForm
+        handleInboxFilter={props.handleInboxFilter}
+        handleDeleteFilter={props.handleDeleteFilter}
+        handleTextFilter={props.handleTextFilter}
+      />
     </header>
   );
 }
