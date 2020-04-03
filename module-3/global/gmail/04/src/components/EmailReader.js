@@ -20,7 +20,9 @@ class EmailReader extends React.Component {
             <h2 className="title--meidum">{this.props.subject}</h2>
             <h3 className="title--small">
               <span className="text--bold display-inline-block mr-1">{this.props.fromName}</span>
-              <span className="text-normal display-inline-block">&lt;{this.props.fromEmail}&gt;</span>
+              <span className="text-normal display-inline-block">
+                &lt;{this.props.fromEmail}&gt;
+              </span>
             </h3>
           </div>
           <div className="text-align-right">
