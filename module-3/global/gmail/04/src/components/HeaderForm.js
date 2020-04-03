@@ -13,9 +13,10 @@ function HeaderForm(props) {
 
   const handleTextFilter = ev => {
     ev.preventDefault();
-    props.handleTextFilter({
+    const data = {
       value: ev.target.value
-    });
+    };
+    props.handleTextFilter(data);
   };
 
   return (
