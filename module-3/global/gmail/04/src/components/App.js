@@ -2,14 +2,15 @@ import React from 'react';
 import Header from './Header';
 import EmailItem from './EmailItem';
 import EmailReader from './EmailReader';
-import emails from '../data/emails.json';
+import apiEmails from '../data/emails.json';
 import '../stylesheets/App.css';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inboxFilter: ''
+      emails: apiEmails,
+      inboxFilter: '',
     };
     this.handleInboxFilter = this.handleInboxFilter.bind(this);
     this.handleDeleteFilter = this.handleDeleteFilter.bind(this);
@@ -27,21 +28,21 @@ class App extends React.Component {
   handleTextFilter(data) {
     console.log('App: han escrito en el campo de texto', data.value);
     this.setState({
-      inboxFilter: data.value
+      inboxFilter: data.value,
     });
   }
 
   renderEmails() {
     const inboxFilter = this.state.inboxFilter.toLowerCase();
-    return emails
-      .filter(email => {
+    return this.state.emails
+      .filter((email) => {
         return (
           email.fromName.toLowerCase().includes(inboxFilter) ||
           email.subject.toLowerCase().includes(inboxFilter) ||
           email.body.toLowerCase().includes(inboxFilter)
         );
       })
-      .map(email => {
+      .map((email) => {
         return (
           <EmailItem
             key={email.id}
@@ -69,10 +70,10 @@ class App extends React.Component {
         </table>
 
         <EmailReader
-          fromName={emails[0].fromName}
-          fromEmail={emails[0].fromEmail}
-          subject={emails[0].subject}
-          body={emails[0].body}
+          fromName={this.state.emails[0].fromName}
+          fromEmail={this.state.emails[0].fromEmail}
+          subject={this.state.emails[0].subject}
+          body={this.state.emails[0].body}
         />
       </div>
     );
