@@ -1,3 +1,4 @@
+// IMPORTANTE: este componente no se está usando, es para poder compararlo con App.js, que es el equivalente en modo funcional
 import React from 'react';
 import Header from './Header';
 import EmailItem from './EmailItem';
@@ -12,7 +13,7 @@ class App extends React.Component {
       emails: apiEmails,
       inboxFilter: '',
       showInbox: true,
-      showEmailId: '',
+      showEmailId: ''
     };
     this.handleInboxFilter = this.handleInboxFilter.bind(this);
     this.handleDeleteFilter = this.handleDeleteFilter.bind(this);
@@ -22,21 +23,23 @@ class App extends React.Component {
     this.handleDeleteEmail = this.handleDeleteEmail.bind(this);
   }
 
+  // user event handlers >>> change state
+
   handleInboxFilter() {
     this.setState({
-      showInbox: true,
+      showInbox: true
     });
   }
 
   handleDeleteFilter() {
     this.setState({
-      showInbox: false,
+      showInbox: false
     });
   }
 
   handleTextFilter(data) {
     this.setState({
-      inboxFilter: data.value,
+      inboxFilter: data.value
     });
   }
 
@@ -46,7 +49,7 @@ class App extends React.Component {
       email.read = true;
       return {
         emails: prevState.emails,
-        showEmailId: emailId,
+        showEmailId: emailId
       };
     });
   }
@@ -58,16 +61,18 @@ class App extends React.Component {
       return {
         emails: prevState.emails,
         // if user deletes the selected email, we deselect it
-        showEmailId: emailId === prevState.showEmailId ? '' : prevState.showEmailId,
+        showEmailId: emailId === prevState.showEmailId ? '' : prevState.showEmailId
       };
     });
   }
 
   handleCloseEmail() {
     this.setState({
-      showEmailId: '',
+      showEmailId: ''
     });
   }
+
+  // render methods >>> paint state
 
   renderFilters() {
     const emailType = this.state.showInbox ? 'recibidos' : 'borrados';
