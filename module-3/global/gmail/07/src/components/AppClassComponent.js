@@ -148,6 +148,7 @@ class App extends React.Component {
     return (
       <div>
         <Header
+          inboxFilter={this.state.inboxFilter}
           handleInboxFilter={this.handleInboxFilter}
           handleDeleteFilter={this.handleDeleteFilter}
           handleTextFilter={this.handleTextFilter}

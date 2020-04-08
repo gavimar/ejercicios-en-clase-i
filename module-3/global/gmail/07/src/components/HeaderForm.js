@@ -1,7 +1,6 @@
 import React from 'react';
 
 function HeaderForm(props) {
-  console.log(props);
   const handleInboxFilter = (ev) => {
     ev.preventDefault();
     props.handleInboxFilter();
