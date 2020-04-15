@@ -8,7 +8,7 @@ import '../stylesheets/App.css';
 const App = () => {
   // states
   const [emails, setEmails] = useState(apiEmails);
-  const [inboxFilter, setInboxFilter] = useState('');
+  const [textFilter, setTextFilter] = useState('');
   const [showInbox, setShowInbox] = useState(true);
   const [showEmailId, setShowEmailId] = useState('');
 
@@ -22,7 +22,7 @@ const App = () => {
   };
 
   const handleTextFilter = (data) => {
-    setInboxFilter(data.value);
+    setTextFilter(data.value);
   };
 
   const handleSelectEmail = (emailId) => {
@@ -52,24 +52,24 @@ const App = () => {
   // render helpers
   const renderFilters = () => {
     const emailType = showInbox ? 'recibidos' : 'borrados';
-    const filterText =
-      inboxFilter === '' ? (
+    const text =
+      textFilter === '' ? (
         'y sin filtrar.'
       ) : (
         <span>
-          y filtrando por <span className="text--bold">{inboxFilter}</span>.
+          y filtrando por <span className="text--bold">{textFilter}</span>.
         </span>
       );
     return (
       <p className="mb-1">
         La usuaria está visualizando los emails <span className="text--bold">{emailType}</span>{' '}
-        {filterText}
+        {text}
       </p>
     );
   };
 
   const renderEmails = () => {
-    const lowerCaseInboxFilter = inboxFilter.toLowerCase();
+    const lowerCaseTextFilter = textFilter.toLowerCase();
     return (
       emails
         // filter by inbox vs deleted
@@ -77,12 +77,12 @@ const App = () => {
           // return showInbox !== email.deleted;
           return showInbox === true ? !email.deleted : email.deleted;
         })
-        // filter by inboxFilter text
+        // filter by textFilter text
         .filter((email) => {
           return (
-            email.fromName.toLowerCase().includes(lowerCaseInboxFilter) ||
-            email.subject.toLowerCase().includes(lowerCaseInboxFilter) ||
-            email.body.toLowerCase().includes(lowerCaseInboxFilter)
+            email.fromName.toLowerCase().includes(lowerCaseTextFilter) ||
+            email.subject.toLowerCase().includes(lowerCaseTextFilter) ||
+            email.body.toLowerCase().includes(lowerCaseTextFilter)
           );
         })
         .map((email) => {
@@ -122,7 +122,7 @@ const App = () => {
   return (
     <div>
       <Header
-        inboxFilter={inboxFilter}
+        textFilter={textFilter}
         handleInboxFilter={handleInboxFilter}
         handleDeleteFilter={handleDeleteFilter}
         handleTextFilter={handleTextFilter}

@@ -33,7 +33,7 @@ function HeaderForm(props) {
         className="form__input-text"
         type="text"
         placeholder="Buscar un correo"
-        value={props.inboxFilter}
+        value={props.textFilter}
         onChange={handleTextFilter}
       />
     </form>

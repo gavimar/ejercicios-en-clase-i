@@ -11,7 +11,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       emails: apiEmails,
-      inboxFilter: '',
+      textFilter: '',
       showInbox: true,
       showEmailId: ''
     };
@@ -39,7 +39,7 @@ class App extends React.Component {
 
   handleTextFilter(data) {
     this.setState({
-      inboxFilter: data.value
+      textFilter: data.value
     });
   }
 
@@ -76,24 +76,24 @@ class App extends React.Component {
 
   renderFilters() {
     const emailType = this.state.showInbox ? 'recibidos' : 'borrados';
-    const filterText =
-      this.state.inboxFilter === '' ? (
+    const text =
+      this.state.textFilter === '' ? (
         'y sin filtrar.'
       ) : (
         <span>
-          y filtrando por <span className="text--bold">{this.state.inboxFilter}</span>.
+          y filtrando por <span className="text--bold">{this.state.textFilter}</span>.
         </span>
       );
     return (
       <p className="mb-1">
         La usuaria está visualizando los emails <span className="text--bold">{emailType}</span>{' '}
-        {filterText}
+        {text}
       </p>
     );
   }
 
   renderEmails() {
-    const inboxFilter = this.state.inboxFilter.toLowerCase();
+    const lowerCaseTextFilter = this.state.textFilter.toLowerCase();
     return (
       this.state.emails
         // filter by inbox vs deleted
@@ -104,9 +104,9 @@ class App extends React.Component {
         // filter by inboxFilter text
         .filter((email) => {
           return (
-            email.fromName.toLowerCase().includes(inboxFilter) ||
-            email.subject.toLowerCase().includes(inboxFilter) ||
-            email.body.toLowerCase().includes(inboxFilter)
+            email.fromName.toLowerCase().includes(lowerCaseTextFilter) ||
+            email.subject.toLowerCase().includes(lowerCaseTextFilter) ||
+            email.body.toLowerCase().includes(lowerCaseTextFilter)
           );
         })
         .map((email) => {
@@ -148,7 +148,7 @@ class App extends React.Component {
     return (
       <div>
         <Header
-          inboxFilter={this.state.inboxFilter}
+          textFilter={this.state.textFilter}
           handleInboxFilter={this.handleInboxFilter}
           handleDeleteFilter={this.handleDeleteFilter}
           handleTextFilter={this.handleTextFilter}
