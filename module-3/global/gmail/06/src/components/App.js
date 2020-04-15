@@ -21,26 +21,26 @@ const App = () => {
     setShowInbox(false);
   };
 
-  const handleTextFilter = (data) => {
+  const handleTextFilter = data => {
     setInboxFilter(data.value);
   };
 
-  const handleSelectEmail = (emailId) => {
+  const handleSelectEmail = emailId => {
     // set email id
     setShowEmailId(emailId);
     // set email read attribute to true
-    const email = emails.find((email) => email.id === emailId);
+    const email = emails.find(email => email.id === emailId);
     email.read = true;
     setEmails([...emails]);
   };
 
-  const handleDeleteEmail = (emailId) => {
+  const handleDeleteEmail = emailId => {
     // clean email id
     if (emailId === showEmailId) {
       setShowEmailId('');
     }
     // set email deleted attribute to true
-    const email = emails.find((email) => email.id === emailId);
+    const email = emails.find(email => email.id === emailId);
     email.deleted = true;
     setEmails([...emails]);
   };
@@ -73,19 +73,19 @@ const App = () => {
     return (
       emails
         // filter by inbox vs deleted
-        .filter((email) => {
+        .filter(email => {
           // return showInbox !== email.deleted;
           return showInbox === true ? !email.deleted : email.deleted;
         })
         // filter by inboxFilter text
-        .filter((email) => {
+        .filter(email => {
           return (
             email.fromName.toLowerCase().includes(lowerCaseInboxFilter) ||
             email.subject.toLowerCase().includes(lowerCaseInboxFilter) ||
             email.body.toLowerCase().includes(lowerCaseInboxFilter)
           );
         })
-        .map((email) => {
+        .map(email => {
           return (
             <EmailItem
               key={email.id}
@@ -104,7 +104,7 @@ const App = () => {
   };
 
   const renderEmailDetail = () => {
-    const selectedEmail = emails.find((email) => email.id === showEmailId);
+    const selectedEmail = emails.find(email => email.id === showEmailId);
     if (selectedEmail) {
       return (
         <EmailReader
@@ -122,6 +122,18 @@ const App = () => {
   console.log('Renderizando');
   return (
     <div>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/child/:id" component={Header} />
+      </Switch>
+
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/child/:id">
+          <Header />
+        </Route>
+      </Switch>
+
       <Header
         handleInboxFilter={handleInboxFilter}
         handleDeleteFilter={handleDeleteFilter}
