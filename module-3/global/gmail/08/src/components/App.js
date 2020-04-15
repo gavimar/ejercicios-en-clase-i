@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
 import EmailItem from './EmailItem';
 import EmailReader from './EmailReader';
-import { getDataFromApi } from '../services/getDataFromApi';
+import apiEmails from '../data/emails.json';
 import '../stylesheets/App.css';
 
 const App = () => {
   // states
-  const [emails, setEmails] = useState([]);
-  const [textFilter, setTextFilter] = useState('');
+  const [emails, setEmails] = useState(apiEmails);
+  const [inboxFilter, setInboxFilter] = useState('');
   const [showInbox, setShowInbox] = useState(true);
   const [showEmailId, setShowEmailId] = useState('');
 
@@ -21,26 +21,26 @@ const App = () => {
     setShowInbox(false);
   };
 
-  const handleTextFilter = data => {
-    setTextFilter(data.value);
+  const handleTextFilter = (data) => {
+    setInboxFilter(data.value);
   };
 
-  const handleSelectEmail = emailId => {
+  const handleSelectEmail = (emailId) => {
     // set email id
     setShowEmailId(emailId);
     // set email read attribute to true
-    const email = emails.find(email => email.id === emailId);
+    const email = emails.find((email) => email.id === emailId);
     email.read = true;
     setEmails([...emails]);
   };
 
-  const handleDeleteEmail = emailId => {
+  const handleDeleteEmail = (emailId) => {
     // clean email id
     if (emailId === showEmailId) {
       setShowEmailId('');
     }
     // set email deleted attribute to true
-    const email = emails.find(email => email.id === emailId);
+    const email = emails.find((email) => email.id === emailId);
     email.deleted = true;
     setEmails([...emails]);
   };
@@ -52,41 +52,40 @@ const App = () => {
   // render helpers
   const renderFilters = () => {
     const emailType = showInbox ? 'recibidos' : 'borrados';
-    const text =
-      textFilter === '' ? (
+    const filterText =
+      inboxFilter === '' ? (
         'y sin filtrar.'
       ) : (
         <span>
-          y filtrando por <span className="text--bold">{textFilter}</span>.
+          y filtrando por <span className="text--bold">{inboxFilter}</span>.
         </span>
       );
-
     return (
       <p className="mb-1">
         La usuaria está visualizando los emails <span className="text--bold">{emailType}</span>{' '}
-        {text}
+        {filterText}
       </p>
     );
   };
 
   const renderEmails = () => {
-    const lowerCaseTextFilter = textFilter.toLowerCase();
+    const lowerCaseInboxFilter = inboxFilter.toLowerCase();
     return (
       emails
         // filter by inbox vs deleted
-        .filter(email => {
+        .filter((email) => {
           // return showInbox !== email.deleted;
           return showInbox === true ? !email.deleted : email.deleted;
         })
-        // filter by textFilter text
-        .filter(email => {
+        // filter by inboxFilter text
+        .filter((email) => {
           return (
-            email.fromName.toLowerCase().includes(lowerCaseTextFilter) ||
-            email.subject.toLowerCase().includes(lowerCaseTextFilter) ||
-            email.body.toLowerCase().includes(lowerCaseTextFilter)
+            email.fromName.toLowerCase().includes(lowerCaseInboxFilter) ||
+            email.subject.toLowerCase().includes(lowerCaseInboxFilter) ||
+            email.body.toLowerCase().includes(lowerCaseInboxFilter)
           );
         })
-        .map(email => {
+        .map((email) => {
           return (
             <EmailItem
               key={email.id}
@@ -105,7 +104,7 @@ const App = () => {
   };
 
   const renderEmailDetail = () => {
-    const selectedEmail = emails.find(email => email.id === showEmailId);
+    const selectedEmail = emails.find((email) => email.id === showEmailId);
     if (selectedEmail) {
       return (
         <EmailReader
@@ -120,19 +119,10 @@ const App = () => {
       );
     }
   };
-
-  // fetch
-
-  useEffect(() => {
-    getDataFromApi().then(data => {
-      setEmails(data);
-    });
-  }, []);
-
   return (
     <div>
       <Header
-        textFilter={textFilter}
+        inboxFilter={inboxFilter}
         handleInboxFilter={handleInboxFilter}
         handleDeleteFilter={handleDeleteFilter}
         handleTextFilter={handleTextFilter}

@@ -12,7 +12,7 @@ function Header(props) {
       </div>
 
       <HeaderForm
-        textFilter={props.textFilter}
+        inboxFilter={props.inboxFilter}
         handleInboxFilter={props.handleInboxFilter}
         handleDeleteFilter={props.handleDeleteFilter}
         handleTextFilter={props.handleTextFilter}
