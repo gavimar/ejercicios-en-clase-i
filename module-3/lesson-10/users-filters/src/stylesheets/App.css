@@ -1,0 +1,59 @@
+.App {
+  text-align: center;
+  display: flex
+}
+ul{
+  list-style-type:none;
+  padding: 0
+}
+
+h2{
+  margin-bottom: 0px;
+  font-size: 15px
+}
+
+h3{
+  font-size: 14px;
+  font-weight: normal
+}
+
+.pokelist{
+  max-width: 475px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between
+}
+
+.card {
+  background:#bbf8ff;
+  border:1px solid black;
+  border-radius: 5px;
+  min-width: 145px;
+  margin-bottom: 20px;
+  max-width: 150px;
+}
+
+.card__types {
+  margin-bottom:12px
+}
+
+.card__types li{
+  background: grey;
+  border-radius: 8px;
+  color: white;
+  display: inline-block;
+  font-size: 13px;
+  padding: 3px;
+}
+
+img{
+  max-width: 150px
+}
+
+aside{
+  text-align: right;
+  padding-right: 10px;
+  border-right: 1px solid black;
+  min-width: 200px;
+}
