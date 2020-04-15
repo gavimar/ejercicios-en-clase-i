@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from './Header';
 import EmailItem from './EmailItem';
 import EmailReader from './EmailReader';
+import Footer from './Footer';
 import apiEmails from '../data/emails.json';
 import '../stylesheets/App.css';
 
@@ -21,26 +22,26 @@ const App = () => {
     setShowInbox(false);
   };
 
-  const handleTextFilter = (data) => {
+  const handleTextFilter = data => {
     setTextFilter(data.value);
   };
 
-  const handleSelectEmail = (emailId) => {
+  const handleSelectEmail = emailId => {
     // set email id
     setShowEmailId(emailId);
     // set email read attribute to true
-    const email = emails.find((email) => email.id === emailId);
+    const email = emails.find(email => email.id === emailId);
     email.read = true;
     setEmails([...emails]);
   };
 
-  const handleDeleteEmail = (emailId) => {
+  const handleDeleteEmail = emailId => {
     // clean email id
     if (emailId === showEmailId) {
       setShowEmailId('');
     }
     // set email deleted attribute to true
-    const email = emails.find((email) => email.id === emailId);
+    const email = emails.find(email => email.id === emailId);
     email.deleted = true;
     setEmails([...emails]);
   };
@@ -73,19 +74,19 @@ const App = () => {
     return (
       emails
         // filter by inbox vs deleted
-        .filter((email) => {
+        .filter(email => {
           // return showInbox !== email.deleted;
           return showInbox === true ? !email.deleted : email.deleted;
         })
         // filter by textFilter text
-        .filter((email) => {
+        .filter(email => {
           return (
             email.fromName.toLowerCase().includes(lowerCaseTextFilter) ||
             email.subject.toLowerCase().includes(lowerCaseTextFilter) ||
             email.body.toLowerCase().includes(lowerCaseTextFilter)
           );
         })
-        .map((email) => {
+        .map(email => {
           return (
             <EmailItem
               key={email.id}
@@ -104,7 +105,7 @@ const App = () => {
   };
 
   const renderEmailDetail = () => {
-    const selectedEmail = emails.find((email) => email.id === showEmailId);
+    const selectedEmail = emails.find(email => email.id === showEmailId);
     if (selectedEmail) {
       return (
         <EmailReader
@@ -135,6 +136,8 @@ const App = () => {
       </table>
 
       {renderEmailDetail()}
+
+      <Footer />
     </div>
   );
 };
