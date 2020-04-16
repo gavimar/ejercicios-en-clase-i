@@ -1,0 +1,59 @@
+
+
+.App {
+  text-align: center;
+}
+
+h1{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: black;
+}
+
+.pokelist{  /* ul */
+list-style-type: none;
+display: flex;
+flex-wrap: wrap;
+max-width: 70%;
+margin: auto;
+
+
+}
+
+
+.pokemonCard{ /* li */
+  width: 200px;
+  height: 250px;
+  border: solid 1px black;
+  border-radius: 20px;
+  margin:20px;
+  background: #b4e5f9
+
+} 
+
+
+img{
+  padding-top: 10px;
+}
+
+.pokemon-name h2{
+  font-size: 26px;
+  text-align: center;
+
+}
+
+
+.pokemon-types{  /* div */
+
+  
+  
+
+}
+
+.type {  /* ul */
+  list-style-type: none;
+  display: inline;
+
+
+}
+
