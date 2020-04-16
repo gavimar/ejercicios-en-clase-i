@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import EmailItem from './EmailItem';
 import EmailReader from './EmailReader';
 import Footer from './Footer';
 import apiEmails from '../data/emails.json';
-import '../stylesheets/App.css';
 
 const App = () => {
   // states
@@ -104,9 +104,10 @@ const App = () => {
     );
   };
 
-  const renderEmailDetail = () => {
-    const selectedEmail = emails.find(email => email.id === showEmailId);
-    if (selectedEmail) {
+  const renderEmailDetail = props => {
+    console.log(props.match.params.emailId);
+    const selectedEmail = emails.find(email => email.id === props.match.params.emailId);
+    if (selectedEmail !== undefined) {
       return (
         <EmailReader
           id={selectedEmail.id}
@@ -118,8 +119,11 @@ const App = () => {
           handleDeleteEmail={handleDeleteEmail}
         />
       );
+    } else {
+      return <p>Email no encontrado</p>;
     }
   };
+
   return (
     <div>
       <Header
@@ -131,11 +135,14 @@ const App = () => {
 
       {renderFilters()}
 
-      <table className="table">
-        <tbody>{renderEmails()}</tbody>
-      </table>
-
-      {renderEmailDetail()}
+      <Switch>
+        <Route path="/email/:emailId" render={renderEmailDetail} />
+        <Route path="/">
+          <table className="table">
+            <tbody>{renderEmails()}</tbody>
+          </table>
+        </Route>
+      </Switch>
 
       <Footer />
     </div>

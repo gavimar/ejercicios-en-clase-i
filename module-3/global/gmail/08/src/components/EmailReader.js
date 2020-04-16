@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class EmailReader extends React.Component {
   constructor(props) {
@@ -29,10 +30,7 @@ class EmailReader extends React.Component {
             </h3>
           </div>
           <div className="text-align-right">
-            <button
-              className="fas fa-times-circle form__btn"
-              onClick={this.handleCloseEmail}
-            ></button>
+            <Link className="fas fa-times-circle form__btn" to="/" />
             <button className="fas fa-trash form__btn" onClick={this.handleDeleteEmail}></button>
           </div>
         </div>

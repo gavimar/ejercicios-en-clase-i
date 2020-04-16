@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import HeaderForm from './HeaderForm';
 
 function Header(props) {
@@ -6,8 +7,10 @@ function Header(props) {
     <header className="col2 mb-1">
       <div>
         <h1 className="title">
-          <span className="fas fa-envelope-open-text mr-1"></span>
-          Gmail
+          <Link to="/" className="text--decoration--none">
+            <span className="fas fa-envelope-open-text mr-1"></span>
+            Gmail
+          </Link>
         </h1>
       </div>
 
