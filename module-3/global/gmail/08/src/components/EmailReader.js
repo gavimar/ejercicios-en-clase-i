@@ -5,15 +5,14 @@ class EmailReader extends React.Component {
   constructor(props) {
     super(props);
     this.handleDeleteEmail = this.handleDeleteEmail.bind(this);
-    this.handleCloseEmail = this.handleCloseEmail.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.handleReadEmail(this.props.id);
   }
 
   handleDeleteEmail() {
     this.props.handleDeleteEmail(this.props.id);
-  }
-
-  handleCloseEmail() {
-    this.props.handleCloseEmail();
   }
 
   render() {
@@ -31,7 +30,7 @@ class EmailReader extends React.Component {
           </div>
           <div className="text-align-right">
             <Link className="fas fa-times-circle form__btn" to="/" />
-            <button className="fas fa-trash form__btn" onClick={this.handleDeleteEmail}></button>
+            <Link className="fas fa-trash form__btn" to="/" onClick={this.handleDeleteEmail} />
           </div>
         </div>
 

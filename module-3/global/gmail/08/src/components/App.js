@@ -11,7 +11,6 @@ const App = () => {
   const [emails, setEmails] = useState(apiEmails);
   const [textFilter, setTextFilter] = useState('');
   const [showInbox, setShowInbox] = useState(true);
-  const [showEmailId, setShowEmailId] = useState('');
 
   // event handlers
   const handleInboxFilter = () => {
@@ -26,9 +25,7 @@ const App = () => {
     setTextFilter(data.value);
   };
 
-  const handleSelectEmail = emailId => {
-    // set email id
-    setShowEmailId(emailId);
+  const handleReadEmail = emailId => {
     // set email read attribute to true
     const email = emails.find(email => email.id === emailId);
     email.read = true;
@@ -36,18 +33,10 @@ const App = () => {
   };
 
   const handleDeleteEmail = emailId => {
-    // clean email id
-    if (emailId === showEmailId) {
-      setShowEmailId('');
-    }
     // set email deleted attribute to true
     const email = emails.find(email => email.id === emailId);
     email.deleted = true;
     setEmails([...emails]);
-  };
-
-  const handleCloseEmail = () => {
-    setShowEmailId('');
   };
 
   // render helpers
@@ -96,7 +85,6 @@ const App = () => {
               time={email.date}
               read={email.read}
               deleted={email.deleted}
-              handleSelectEmail={handleSelectEmail}
               handleDeleteEmail={handleDeleteEmail}
             />
           );
@@ -105,7 +93,6 @@ const App = () => {
   };
 
   const renderEmailDetail = props => {
-    console.log(props.match.params.emailId);
     const selectedEmail = emails.find(email => email.id === props.match.params.emailId);
     if (selectedEmail !== undefined) {
       return (
@@ -115,7 +102,7 @@ const App = () => {
           fromEmail={selectedEmail.fromEmail}
           subject={selectedEmail.subject}
           body={selectedEmail.body}
-          handleCloseEmail={handleCloseEmail}
+          handleReadEmail={handleReadEmail}
           handleDeleteEmail={handleDeleteEmail}
         />
       );

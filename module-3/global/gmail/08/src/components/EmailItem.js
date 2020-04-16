@@ -1,11 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../stylesheets/EmailItem.css';
 
 function EmailItem(props) {
-  const handleSelectEmail = () => {
-    props.handleSelectEmail(props.id);
-  };
-
   const handleDeleteEmail = ev => {
     ev.stopPropagation();
     props.handleDeleteEmail(props.id);
@@ -14,19 +11,19 @@ function EmailItem(props) {
   let deletedClass = props.deleted === true ? 'text--decoration--through' : '';
   let readClass = props.read === false ? 'text--bold' : '';
   return (
-    <tr className={`cursor-pointer ${deletedClass} ${readClass}`} onClick={handleSelectEmail}>
-      <td>
-        <Link className="text--decoration--none" to={`email/${props.id}`}>
+    <tr className={`cursor-pointer ${deletedClass} ${readClass}`}>
+      <td className="email--cell">
+        <Link className="email--link text--decoration--none" to={`email/${props.id}`}>
           {props.from}
         </Link>
       </td>
-      <td>
-        <Link className="text--decoration--none" to={`email/${props.id}`}>
+      <td className="email--cell">
+        <Link className="email--link text--decoration--none" to={`email/${props.id}`}>
           {props.subject}
         </Link>
       </td>
-      <td>
-        <Link className="text--decoration--none" to={`email/${props.id}`}>
+      <td className="email--cell">
+        <Link className="email--link text--decoration--none" to={`email/${props.id}`}>
           {props.time}
         </Link>
       </td>

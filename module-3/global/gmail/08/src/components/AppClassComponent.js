@@ -1,11 +1,11 @@
 // IMPORTANTE: este componente no se está usando, es para poder compararlo con App.js, que es el equivalente en modo funcional
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import EmailItem from './EmailItem';
 import EmailReader from './EmailReader';
 import Footer from './Footer';
 import apiEmails from '../data/emails.json';
-import '../stylesheets/App.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,63 +13,43 @@ class App extends React.Component {
     this.state = {
       emails: apiEmails,
       textFilter: '',
-      showInbox: true,
-      showEmailId: ''
+      showInbox: true
     };
     this.handleInboxFilter = this.handleInboxFilter.bind(this);
     this.handleDeleteFilter = this.handleDeleteFilter.bind(this);
     this.handleTextFilter = this.handleTextFilter.bind(this);
-    this.handleCloseEmail = this.handleCloseEmail.bind(this);
-    this.handleSelectEmail = this.handleSelectEmail.bind(this);
+    this.handleReadEmail = this.handleReadEmail.bind(this);
     this.handleDeleteEmail = this.handleDeleteEmail.bind(this);
+    this.renderEmailDetail = this.renderEmailDetail.bind(this);
   }
 
   // user event handlers >>> change state
 
   handleInboxFilter() {
-    this.setState({
-      showInbox: true
-    });
+    this.setState({ showInbox: true });
   }
 
   handleDeleteFilter() {
-    this.setState({
-      showInbox: false
-    });
+    this.setState({ showInbox: false });
   }
 
   handleTextFilter(data) {
-    this.setState({
-      textFilter: data.value
-    });
+    this.setState({ textFilter: data.value });
   }
 
-  handleSelectEmail(emailId) {
-    this.setState(prevState => {
-      const email = prevState.emails.find(email => email.id === emailId);
-      email.read = true;
-      return {
-        emails: prevState.emails,
-        showEmailId: emailId
-      };
-    });
+  handleReadEmail(emailId) {
+    this.setEmailAttribute(emailId, 'read');
   }
 
   handleDeleteEmail(emailId) {
-    this.setState(prevState => {
-      const email = prevState.emails.find(email => email.id === emailId);
-      email.deleted = true;
-      return {
-        emails: prevState.emails,
-        // if user deletes the selected email, we deselect it
-        showEmailId: emailId === prevState.showEmailId ? '' : prevState.showEmailId
-      };
-    });
+    this.setEmailAttribute(emailId, 'deleted');
   }
 
-  handleCloseEmail() {
-    this.setState({
-      showEmailId: ''
+  setEmailAttribute(emailId, attribute) {
+    this.setState(prevState => {
+      const email = prevState.emails.find(email => email.id === emailId);
+      email[attribute] = true;
+      return { emails: prevState.emails };
     });
   }
 
@@ -120,7 +100,6 @@ class App extends React.Component {
               time={email.date}
               read={email.read}
               deleted={email.deleted}
-              handleSelectEmail={this.handleSelectEmail}
               handleDeleteEmail={this.handleDeleteEmail}
             />
           );
@@ -128,9 +107,9 @@ class App extends React.Component {
     );
   }
 
-  renderEmailDetail() {
-    const selectedEmail = this.state.emails.find(email => email.id === this.state.showEmailId);
-    if (selectedEmail) {
+  renderEmailDetail(props) {
+    const selectedEmail = this.state.emails.find(email => email.id === props.match.params.emailId);
+    if (selectedEmail !== undefined) {
       return (
         <EmailReader
           id={selectedEmail.id}
@@ -138,10 +117,12 @@ class App extends React.Component {
           fromEmail={selectedEmail.fromEmail}
           subject={selectedEmail.subject}
           body={selectedEmail.body}
-          handleCloseEmail={this.handleCloseEmail}
+          handleReadEmail={this.handleReadEmail}
           handleDeleteEmail={this.handleDeleteEmail}
         />
       );
+    } else {
+      return <p>Email no encontrado</p>;
     }
   }
 
@@ -156,11 +137,14 @@ class App extends React.Component {
         />
         {this.renderFilters()}
 
-        <table className="table">
-          <tbody>{this.renderEmails()}</tbody>
-        </table>
-
-        {this.renderEmailDetail()}
+        <Switch>
+          <Route path="/email/:emailId" render={this.renderEmailDetail} />
+          <Route path="/">
+            <table className="table">
+              <tbody>{this.renderEmails()}</tbody>
+            </table>
+          </Route>
+        </Switch>
 
         <Footer />
       </div>

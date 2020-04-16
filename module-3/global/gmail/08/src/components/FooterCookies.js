@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const FooterConfig = props => {
-  console.log(props);
   return (
     <div>
       <h4 className="title--medium pb-1">Cookies:</h4>
