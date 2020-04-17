@@ -5,13 +5,13 @@ import Header from './Header';
 import EmailItem from './EmailItem';
 import EmailReader from './EmailReader';
 import Footer from './Footer';
-import apiEmails from '../data/emails.json';
+import getDataFromApi from '../services/getDataFromApi';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      emails: apiEmails,
+      emails: [],
       textFilter: '',
       showInbox: true
     };
@@ -21,6 +21,31 @@ class App extends React.Component {
     this.handleReadEmail = this.handleReadEmail.bind(this);
     this.handleDeleteEmail = this.handleDeleteEmail.bind(this);
     this.renderEmailDetail = this.renderEmailDetail.bind(this);
+  }
+
+  componentDidMount() {
+    // get data from api
+    getDataFromApi().then(data => {
+      this.setState({
+        emails: data
+      });
+    });
+    // get data from local storage
+    let localStorageData = JSON.parse(localStorage.getItem('emailFilters'));
+    if (localStorageData !== null) {
+      this.setState({
+        textFilter: localStorageData.textFilter,
+        showInbox: localStorageData.showInbox
+      });
+    }
+  }
+
+  componentDidUpdate() {
+    const localStorageData = {
+      textFilter: this.state.textFilter,
+      showInbox: this.state.showInbox
+    };
+    localStorage.setItem('emailFilters', JSON.stringify(localStorageData));
   }
 
   // user event handlers >>> change state

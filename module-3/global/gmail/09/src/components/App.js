@@ -1,16 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Header from './Header';
 import EmailItem from './EmailItem';
 import EmailReader from './EmailReader';
 import Footer from './Footer';
-import apiEmails from '../data/emails.json';
+import getDataFromApi from '../services/getDataFromApi';
 
 const App = () => {
+  // get data from local storage
+  let localStorageData = JSON.parse(localStorage.getItem('emailFilters'));
+  if (localStorageData === null) {
+    localStorageData = {
+      textFilter: '',
+      showInbox: true
+    };
+  }
+
   // states
-  const [emails, setEmails] = useState(apiEmails);
-  const [textFilter, setTextFilter] = useState('');
-  const [showInbox, setShowInbox] = useState(true);
+  const [emails, setEmails] = useState([]);
+  const [textFilter, setTextFilter] = useState(localStorageData.textFilter);
+  const [showInbox, setShowInbox] = useState(localStorageData.showInbox);
+
+  // effects
+
+  useEffect(() => {
+    getDataFromApi().then(data => {
+      setEmails(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    const localStorageData = {
+      textFilter: textFilter,
+      showInbox: showInbox
+    };
+    localStorage.setItem('emailFilters', JSON.stringify(localStorageData));
+  });
 
   // event handlers
   const handleInboxFilter = () => {
